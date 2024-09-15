@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wecycle Health Assistant</title>
+    <style>
+  body {
+    background-color: #FFFFFF;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Start content from the top */
+    height: 100vh;
+    padding-top: 20px; /* Add some padding to the top */
+    margin: 0;
+    color: black;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #F0C7BC;
+    text-align: center;
+    margin-bottom: 30px; /* Add more space below the heading */
+}
+
+form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px; /* Increase margin below form */
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    font-size: 1rem;
+    border: 2px solid #F0C7BC;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #F0C7BC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #F0C7BC;
+}
+
+#response {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px; /* Increase the gap between the boxes */
+    margin-bottom: 40px; /* Add margin below the container */
+}
+
+.box {
+    background-color: #f2d7d0;
+    color: black;
+    padding: 20px;
+    width: 220px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.box:hover {
+    transform: scale(1.05);
+}
+
+.wrapper {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#joke {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+#btn {
+    padding: 10px 20px;
+    background-color: #F0C7BC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px; /* Add margin to push it down */
+    margin-bottom: 20px;
+}
+
+#btn:hover {
+    background-color: #a36250;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+#jokeElement {
+    font-size: 1.5rem;
+}
+
+#chat-response {
+  margin-top: 20px;  
+  margin-bottom: 20px;  
+  font-size: 1.2rem;  
+  color: black; 
+}
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Wecycle Health Assistant</h1>
+
+    <form id="chat-form">
+        <input type="text" id="user-message" placeholder="How can WeCycle help you!">
+        <button type="submit">Send</button>
+    </form>
+    
+    <!-- This div will display the chatbot's response -->
+    <div id="chat-response"></div>
+
+    <!-- Information Boxes -->
+    <div class="container">
+        <div class="box" id="nutrition">Why track nutrition?</div>
+        <div class="box" id="periods">Why track periods?</div>
+        <div class="box" id="pcos">What is... PCOS?</div>
+        <div class="box" id="mindBodyGut">The mind, body, gut connection</div>
+    </div>
+
+    <!-- Display for Box Information -->
+    <div id="infoCard" class="card" style="display: none;">
+        <p id="infoText"></p>
+    </div>
+
+    <!-- Joke Section -->
+    <button id="btn">Cheer Up and Get your joke!</button>
+    <div class="card">
+        <p id="jokeElement">Your joke will appear here!</p>
+    </div>
+    
+    <script>
+        // Handling joke button
+        document.getElementById('btn').addEventListener('click', async () => {
+            const response = await fetch('https://catfact.ninja/fact');
+            const data = await response.json();
+
+            if (response.ok) {
+                const joke = data.fact;  // The 'fact' key contains the cat joke
+                document.getElementById('jokeElement').textContent = joke;
+            } else {
+                document.getElementById('jokeElement').textContent = 'Failed to fetch joke. Please try again later.';
+            }
+        });
+
+        // Handling information box clicks
+        const infoCard = document.getElementById('infoCard');
+        const infoText = document.getElementById('infoText');
+
+        const infoData = {
+            nutrition: "Tracking nutrition helps you understand how your diet impacts your health.",
+            periods: "Tracking periods can help monitor cycle health, predict fertility windows, and catch irregularities.",
+            pcos: "PCOS (Polycystic Ovary Syndrome) is a hormonal disorder that affects women and can cause various health challenges.",
+            mindBodyGut: "The mind, body, and gut connection shows how mental health, physical health, and gut health are interlinked."
+        };
+
+        document.getElementById('nutrition').addEventListener('click', () => {
+            infoCard.style.display = 'block';
+            infoText.textContent = infoData.nutrition;
+        });
+
+        document.getElementById('periods').addEventListener('click', () => {
+            infoCard.style.display = 'block';
+            infoText.textContent = infoData.periods;
+        });
+
+        document.getElementById('pcos').addEventListener('click', () => {
+            infoCard.style.display = 'block';
+            infoText.textContent = infoData.pcos;
+        });
+
+        document.getElementById('mindBodyGut').addEventListener('click', () => {
+            infoCard.style.display = 'block';
+            infoText.textContent = infoData.mindBodyGut;
+        });
+    </script>
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent the default form submission
+    
+            let userMessage = document.getElementById('user-message').value;
+    
+            // Sending the user message to the Flask backend
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+    
+            const data = await response.json();
+    
+            // Update the page with the chatbot's response
+            document.getElementById('chat-response').innerText = data.response;
+    
+            // Clear the input field after sending the message
+            document.getElementById('user-message').value = '';
+        });
+    </script>
+    
+    
+</body>
+</html>
