@@ -28,7 +28,7 @@ def generate_response(user_message):
     elif any(mental in user_message for mental in ['mental health', 'depression', 'sad', 'suicide', 'depressed']):
         return 'Cheer up!! You are enough!! If it persists, consult a therapist.'
     elif any(offensive in user_message for offensive in ['dick', 'ass', 'fuck', 'pussy']):
-        return 'HEY DONT SAY THAT ASSHOLE'
+        return 'HEY DONT SAY THAT, THAT'S NOT NICE'
     else:
         return 'Sorry, I didn’t understand. Can you please clarify?'
 
